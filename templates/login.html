@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 text-center" style="margin-top: 50px;">
+                <h1 class="mb-4">LOGIN</h1>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="/login" method="POST">
+                            <div class="mb-4">
+                                <label for="email" class="form-label">Email:</label>
+                                <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="mdp" class="form-label">Password:</label>
+                                <input type="password" id="mdp" name="mdp" class="form-control" placeholder="Enter your password" required>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary w-100">ENVOYER</button>
+                            </div>
+                            <p style="margin-top:20px">I have not an account <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/">Create an account</a></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
