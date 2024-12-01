@@ -1,6 +1,6 @@
 # app/route.py
 from flask import Blueprint, render_template,request, jsonify,redirect,url_for,session
-from .models import User,db
+from .models import User,db,Recette,Categorie
 
 
 home_bp = Blueprint('home', __name__)
@@ -16,7 +16,7 @@ def home():
     if user is None:
         return redirect(url_for('home.login'))
 
-    name = user.username
+    name = user.email
     message = "Page CookHelp"
     return render_template('home.html', message=message, user_name=name)
 
@@ -46,10 +46,37 @@ def log():
         if user and user.mot_de_passe == mdp :
             session['user_id'] = user.id_user
             return redirect(url_for('home.home'))
-        else:
-            print(erreur)
     return render_template('login.html')
 @home_bp.route('/logout')
 def logout():
     session.pop('user_id', None)
     return redirect(url_for('home.login'))
+@home_bp.route('/add_recette',methods=['GET','POST'])
+def add():
+    if 'user_id' not in session:
+        return redirect(url_for('home.home'))
+    user_id = session['user_id']
+    user = User.query.filter_by(id_user=user_id).first()
+
+    if user is None:
+        return redirect(url_for('home.login'))
+
+    name = user.email
+    categories=Categorie.query.all()
+    if request.method == 'POST':
+        titre=request.form['titre']
+        description=request.form['description']
+        ingredients=request.form['ingredients']
+        instruction=request.form['instructions']
+        id_categorie = request.form['categorie']
+        image=request.form['image']
+        
+        new_recette=Recette(ID_CATEGORIE=id_categorie,ID_USER=user_id,TITRE=titre,DESCRIPTION=description,INGREDIENTS=ingredients,INSTRUCTIONS=instruction,IMAGE=image)
+        db.session.add(new_recette)
+        db.session.commit()
+        
+
+
+    return render_template('form.html',categories=categories,email=name)
+
+
