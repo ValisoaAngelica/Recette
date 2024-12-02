@@ -53,3 +53,35 @@ def log():
 def logout():
     session.pop('user_id', None)
     return redirect(url_for('home.login'))
+
+@home_bp.route('/deleteRecette/<int : id_recette>')
+def deleteRecette(id_recette):
+    recette = Recette.query.filter_by(id_recette = id_recette).first()
+    db.session.delete(recette)
+    db.session.commit()
+    return redirect('/')
+
+
+@home_bp.route('/updateRecette/<int : id_recette>', methods=["POST","GET"])
+def updateRecette(id_recette):
+    if request.method == 'POST':
+        titre = request.form['titre']
+        description = request.form['description']
+        ingredients = request.form['ingredients']
+        instructions = request.form['instructions']
+        categorie = request.form['categorie']
+        image = request.form['image']
+        
+        recette = Recette.query.filter_by(id_recette = id_recette).first()
+        recette.titre = titre
+        recette.description = description
+        recette.ingredients = ingredients
+        recette.instructions = instructions
+        recette.categorie = categorie
+        recette.image = image
+
+        db.session.add(recette)
+        db.session.commit()
+        return redirect('/')
+    recette = Recette.query.filter_by(id_recette = id_recette).first()
+    return render_template('modifierRecette.html', recette = recette)
