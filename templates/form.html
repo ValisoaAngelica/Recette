@@ -48,6 +48,8 @@
 <body>
     <h1>Ajouter une Nouvelle Recette</h1>
     <form action="/adda_recette" method="POST">
+    <h2>{{email}}</h2>
+    <form action="/add_recette" method="POST">
         <div>
             <label for="titre">Titre de la recette</label>
             <input type="text" id="titre" name="titre" required>
@@ -66,10 +68,10 @@
         </div>
         <div>
             <label for="categorie">Catégorie</label>
-            <select id="categorie" name="categorie" required>
+            <select id="categorie_id" name="categorie" required>
                 <option value="" disabled selected>Sélectionner une catégorie</option>
                 {% for categorie in categories %}
-                <option value="{{ categorie['ID_CATEGORIE'] }}">{{ categorie['NOM_CATEGORIE'] }}</option>
+                <option value="{{ categorie.ID_CATEGORIE }}">{{ categorie.NOM_CATEGORIE }}</option>
                 {% endfor %}
             </select>
         </div>
