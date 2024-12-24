@@ -47,9 +47,9 @@
 </head>
 <body>
     <h1>Ajouter une Nouvelle Recette</h1>
-    <form action="/adda_recette" method="POST">
+    <form action="/add_recette" method="POST" enctype="multipart/form-data">
     <h2>{{email}}</h2>
-    <form action="/add_recette" method="POST">
+    <!-- <form action="/add_recette" method="POST"> -->
         <div>
             <label for="titre">Titre de la recette</label>
             <input type="text" id="titre" name="titre" required>
@@ -77,7 +77,7 @@
         </div>
         <div>
             <label for="image">Chemin de l'image (facultatif)</label>
-            <input type="text" id="image" name="image">
+            <input type="file" id="image" name="image">
         </div>
         <button type="submit">Ajouter</button>
     </form>

@@ -1,6 +1,8 @@
-# app/route.py
-from flask import Blueprint, render_template,request, jsonify,redirect,url_for,session
-from .models import User,db,Recette,Categorie
+from flask import Blueprint, request, redirect, url_for, render_template, current_app, session
+from werkzeug.utils import secure_filename
+from .models import Recette, Categorie, User
+from . import db
+import os
 
 
 home_bp = Blueprint('home', __name__)
@@ -69,9 +71,16 @@ def add():
         ingredients=request.form['ingredients']
         instruction=request.form['instructions']
         id_categorie = request.form['categorie']
-        image=request.form['image']
+        image=request.files['image']
+
+        if image and image.filename != '':
+            filename = secure_filename(image.filename)
+            file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+            image.save(file_path)
+        else:
+            filename = None
         
-        new_recette=Recette(ID_CATEGORIE=id_categorie,ID_USER=user_id,TITRE=titre,DESCRIPTION=description,INGREDIENTS=ingredients,INSTRUCTIONS=instruction,IMAGE=image)
+        new_recette=Recette(ID_CATEGORIE=id_categorie,ID_USER=user_id,TITRE=titre,DESCRIPTION=description,INGREDIENTS=ingredients,INSTRUCTIONS=instruction,IMAGE=filename)
         db.session.add(new_recette)
         db.session.commit()
         
