@@ -1,70 +1,119 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajouter une Recette</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f9;
+        /* Barre de navigation */
+        .navbar {
+            background-color: #ffcaa6;
         }
+        .navbar a {
+            color: #252525;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        .navbar a:hover {
+            text-decoration: none;
+            color: #ff6f61;
+        }
+
+        /* Formulaire */
         form {
-            max-width: 500px;
-            margin: auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 50px auto;
+            background: #f5f5f5;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
         }
-        form div {
-            margin-bottom: 15px;
+
+        form h1 {
+            text-align: center;
+            color: #252525;
+            margin-bottom: 20px;
         }
+
         label {
-            display: block;
-            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
         }
-        input, textarea, select {
+
+        input[type="text"], textarea, select, input[type="file"] {
             width: 100%;
             padding: 10px;
+            font-size: 14px;
             border: 1px solid #ddd;
             border-radius: 5px;
+            background: #f8f9fa;
+            margin-bottom: 20px;
         }
+
+        input[type="text"]:focus, textarea:focus, select:focus, input[type="file"]:focus {
+            border-color: #ff6f61;
+            box-shadow: 0 0 5px rgba(255, 111, 97, 0.5);
+        }
+
         button {
-            background-color: #007bff;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(
+                0deg,
+                rgba(20, 167, 62, 1) 0%,
+                rgba(102, 247, 113, 1) 100%
+            );
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
+            box-shadow: 0 0.7em 1.5em -0.5em #14a73e98;
+            transition: all 0.3s ease-in-out;
         }
+
         button:hover {
-            background-color: #0056b3;
+            box-shadow: 0 0.5em 1.5em -0.5em #14a73e98;
+        }
+
+        button:active {
+            box-shadow: 0 0.3em 1em -0.5em #14a73e98;
         }
     </style>
 </head>
 <body>
-    <h1>Ajouter une Nouvelle Recette</h1>
+    <!-- Barre de navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">CookHelp</a>
+            <div class="navbar-nav">
+                <a class="nav-link" href="/logout">Se déconnecter</a>
+                <a class="nav-link" href="/add_recette">Ajouter une recette</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Formulaire -->
     <form action="/add_recette" method="POST" enctype="multipart/form-data">
-    <h2>{{email}}</h2>
-    <!-- <form action="/add_recette" method="POST"> -->
+        <h1>Ajouter une Nouvelle Recette</h1>
         <div>
             <label for="titre">Titre de la recette</label>
-            <input type="text" id="titre" name="titre" required>
+            <input type="text" id="titre" name="titre" placeholder="Entrez le titre" required>
         </div>
         <div>
             <label for="description">Description</label>
-            <textarea id="description" name="description"></textarea>
+            <textarea id="description" name="description" placeholder="Décrivez brièvement la recette"></textarea>
         </div>
         <div>
             <label for="ingredients">Ingrédients</label>
-            <textarea id="ingredients" name="ingredients" required></textarea>
+            <textarea id="ingredients" name="ingredients" placeholder="Listez les ingrédients requis" required></textarea>
         </div>
         <div>
             <label for="instructions">Instructions</label>
-            <textarea id="instructions" name="instructions" required></textarea>
+            <textarea id="instructions" name="instructions" placeholder="Décrivez les étapes à suivre" required></textarea>
         </div>
         <div>
             <label for="categorie">Catégorie</label>
@@ -76,10 +125,10 @@
             </select>
         </div>
         <div>
-            <label for="image">Chemin de l'image (facultatif)</label>
-            <input type="file" id="image" name="image">
+            <label for="image">Ajouter une image </label>
+            <input type="file" id="image" name="image" accept="image/*">
         </div>
-        <button type="submit">Ajouter</button>
+        <button type="submit">Ajouter la Recette</button>
     </form>
 </body>
 </html>
