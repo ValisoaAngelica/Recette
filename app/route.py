@@ -18,9 +18,10 @@ def home():
     if user is None:
         return redirect(url_for('home.login'))
 
+    recette = Recette.query.all()
     name = user.email
     message = "Page CookHelp"
-    return render_template('home.html', message=message, user_name=name)
+    return render_template('home.html', message=message, user_name=name, recette=recette)
 
 
 @home_bp.route('/', methods=['GET','POST'])
