@@ -14,7 +14,7 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.secret_key="recette"
 
-    UPLOAD_FOLDER = os.path.join(app.root_path, 'static', 'image')
+    UPLOAD_FOLDER = os.path.join('static', 'image')
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
