@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CookHelp</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
+    <script src="{{ url_for('static',filename='js/bootstrap.bundle.min.js') }}"></script>
     <style>
         /* Barre de navigation */
         .navbar {
@@ -122,9 +123,16 @@
         <div class="container-fluid">
             <a class="navbar-brand" href="/home">CookHelp</a>
             <div class="navbar-nav">
-                <a class="nav-link" href="#">Voir mes recettes</a>
-                <a class="nav-link" href="/logout">Se déconnecter</a>
-                <a class="nav-link" href="/add_recette">Ajouter une recette</a>
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Menu
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/listes">Voir mes recettes</a></li>
+                        <li><a class="dropdown-item" href="/logout">Se déconnecter</a></li>
+                        <li><a class="dropdown-item" href="/add_recette">Ajouter une recette</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
