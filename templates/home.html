@@ -1,15 +1,203 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CookHelp</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
+    <style>
+        /* Barre de navigation */
+        .navbar {
+            background-color: #ffcaa6;
+        }
+        .navbar a {
+            color: #252525;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        .navbar a:hover {
+            text-decoration: none;
+            color: #ff6f61;
+        }
+
+        /* Grille de cartes */
+        .card {
+            margin: 20px;
+            width: 100%;
+            max-width: 250px;
+            padding: 1em;
+            background: #f5f5f5;
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-img {
+            height: 150px;
+            background-color: #ffcaa6;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .card-info {
+            text-align: center;
+        }
+
+        .text-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .text-body {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+        }
+
+        .card-button {
+            border: 1px solid #252525;
+            display: flex;
+            padding: 0.5em;
+            border-radius: 50px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .card-button:hover {
+            background-color: #ffcaa6;
+            border-color: #ffcaa6;
+        }
+        /* From Uiverse.io by adamgiebl */ 
+        .cssbuttons-io-button {
+        display: flex;
+        align-items: center;
+        font-family: inherit;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 16px;
+        padding: 0.7em 1.4em 0.7em 1.1em;
+        color: white;
+        background: #ad5389;
+        background: linear-gradient(
+            0deg,
+            rgba(20, 167, 62, 1) 0%,
+            rgba(102, 247, 113, 1) 100%
+        );
+        border: none;
+        box-shadow: 0 0.7em 1.5em -0.5em #14a73e98;
+        letter-spacing: 0.05em;
+        border-radius: 20em;
+        }
+
+        .cssbuttons-io-button svg {
+        margin-right: 6px;
+        }
+
+        .cssbuttons-io-button:hover {
+        box-shadow: 0 0.5em 1.5em -0.5em #14a73e98;
+        }
+
+        .cssbuttons-io-button:active {
+        box-shadow: 0 0.3em 1em -0.5em #14a73e98;
+}
+
+    </style>
 </head>
 <body>
-    <form action=""></form>
-    <h1>{{message}}</h1>
-    <h2>{{user_name}}</h2>
-    <a href="/logout">LOGOUT</a>
-    <a href="/add_recette">Ajouter Recette</a>
+    <!-- Barre de navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/home">CookHelp</a>
+            <div class="navbar-nav">
+                <a class="nav-link" href="#">Voir mes recettes</a>
+                <a class="nav-link" href="/logout">Se déconnecter</a>
+                <a class="nav-link" href="/add_recette">Ajouter une recette</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Message de bienvenue -->
+    <div class="container mt-4">
+        <h1 class="text-center">{{ message }}</h1>
+        <h2 class="text-center">Bienvenue, {{ user_name }}</h2>
+    </div>
+
+    <!-- Grille de cartes -->
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <!-- Carte 1 -->
+             {% for recettes in recette %}
+            <div class="col-md-4 col-sm-6 col-12 d-flex justify-content-center">
+                <div class="card">
+                    <div class="card-img"
+                        style="background-image: url('/static/image/{{ recettes.IMAGE }}');
+                                background-size: cover;
+                                background-position: center;">
+                    </div>
+                    <div class="card-info">
+                        <p class="text-title">{{ recettes.TITRE }}</p>
+                        <p class="text-body">{{ recettes.DESCRIPTION }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <!-- <span class="text-title">10 €</span> -->
+                            <button class="cssbuttons-io-button">
+                            <svg
+                                height="24"
+                                width="24"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm1 14H9v-2h6v2zm0-4H9v-2h6v2zm-3-5V3.5L18.5 9H12z"></path>
+                            </svg>
+                            <span>Détail</span>
+                            </button>
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <!-- Carte 2 -->
+            <!-- <div class="col-md-4 col-sm-6 col-12 d-flex justify-content-center">
+                <div class="card">
+                    <div class="card-img" style="background-image: url('/static/images/produit2.jpg'); background-size: cover; background-position: center;"></div>
+                    <div class="card-info">
+                        <p class="text-title">Produit 2</p>
+                        <p class="text-body">Description du produit 2.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="text-title">15 €</span>
+                        <button class="cssbuttons-io-button">
+                        <svg
+                            height="24"
+                            width="24"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm1 14H9v-2h6v2zm0-4H9v-2h6v2zm-3-5V3.5L18.5 9H12z"></path>
+                        </svg>
+                        <span>Détail</span>
+                        </button>
+                    </div>
+                </div>
+            </div> -->
+
+            <!-- Ajoutez d'autres cartes ici -->
+        </div>
+    </div>
 </body>
 </html>

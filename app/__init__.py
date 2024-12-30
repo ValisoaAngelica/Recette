@@ -14,8 +14,14 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.secret_key="recette"
 
+    UPLOAD_FOLDER = os.path.join('static', 'image')
+    if not os.path.exists(UPLOAD_FOLDER):
+        os.makedirs(UPLOAD_FOLDER)
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
     db.init_app(app)
     migrate.init_app(app, db)
+
 
     from .route import home_bp
     app.register_blueprint(home_bp)
