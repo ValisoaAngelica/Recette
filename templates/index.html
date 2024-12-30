@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        .search-box {
+            margin: 20px auto;
+            max-width: 400px;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+        }
+        .results {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Product Search</h1>
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Type your search here..." />
+        <button onclick="search()">Search</button>
+    </div>
+    <div class="results" id="results"></div>
+
+    <script>
+        async function search() {
+            const query = document.getElementById('searchInput').value;
+            if (!query) {
+                alert('Please enter a search term');
+                return;
+            }
+
+            const response = await fetch('http://127.0.0.1:5000/search', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query: query }),
+            });
+
+            const data = await response.json();
+            const resultsDiv = document.getElementById('results');
+
+            if (response.ok) {
+                // Display results
+                resultsDiv.innerHTML = `
+                    <h3>Results:</h3>
+                    <p>${JSON.stringify(data.results)}</p>
+                `;
+            } else {
+                // Display error
+                resultsDiv.innerHTML = `
+                    <h3>Error:</h3>
+                    <p>${data.error}</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
