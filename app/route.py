@@ -90,6 +90,9 @@ def add():
 
     return render_template('form.html',categories=categories,email=name)
 
+@home_bp.route('/listes')
+def liste():
+    return render_template('liste.html')
 # @home_bp.route('/deleteRecette/<int : id_recette>')
 # def deleteRecette(id_recette):
 #     recette = Recette.query.filter_by(id_recette = id_recette).first()
