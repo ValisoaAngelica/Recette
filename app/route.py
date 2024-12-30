@@ -132,5 +132,7 @@ def liste():
 #     recette = Recette.query.filter_by(id_recette = id_recette).first()
 #     return render_template('modifierRecette.html', recette = recette)
     
-
+@home_bp.route('/index')
+def index():
+    return render_template("index.html")
 

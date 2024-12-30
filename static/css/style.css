@@ -1,0 +1,81 @@
+body {
+    font-family: 'Georgia', serif;
+    background-image: url('/static/image/pexels-n-voitkevich-6252741.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: #4a3f35;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    margin-top: 20px;
+}
+
+h1 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 2.5rem;
+    color: #fff8ec!important;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.card {
+    width: 90%; /* Réduire la largeur à 90% de la largeur du conteneur */
+    max-width: 400px; /* Limite maximale de largeur */
+    height: auto; /* Hauteur ajustée automatiquement au contenu */
+    min-height: 300px; /* Définir une hauteur minimale pour l'augmenter légèrement */
+    margin: 0 auto; /* Centrer la carte horizontalement */
+    border: 1px solid #d4c5a0;
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(5px) !important;
+    box-shadow: inset 0 2px 5px rgba(233, 231, 231, 0.2);
+}
+
+
+.form-label {
+    color: #4a3f35;;
+    font-weight: bold;
+}
+
+.form-control {
+    border: 1px solid #d4c5a0;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.form-control:focus {
+    border-color: #855f42;
+    box-shadow: 0 0 6px rgba(133, 95, 66, 0.5);
+}
+
+.btn-primary {
+    background-color:#e1ad01!important;
+    border-color: #855f42 !important;
+    font-weight: bold;
+    width: 50px !important;
+    font-size: 0.9rem !important; /* Taille réduite */
+    padding: 8px 16px !important; /* Moins de padding pour un bouton compact */
+    border-radius: 4px !important; /* Coins légèrement arrondis */
+}
+
+.btn-primary:hover {
+    background-color: #855f42 !important;
+    border-color: #6e5637 !important;
+}
+
+a {
+    color: #e1ad01!important;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #6e5637;
+    text-decoration: underline;
+}
+
+p {
+    color: #fff8ec;
+    font-size: 1rem;
+}
