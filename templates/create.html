@@ -6,9 +6,8 @@
     <title>{{title}}</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-</head>
+</head>d
 <style>
-    /* From Uiverse.io by Creatlydev */ 
 .button {
   line-height: 1;
   background-color: #e1ad01;
@@ -107,12 +106,12 @@
     <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
     <script>
         document.getElementById('Form').addEventListener('submit',function(event){
-            const password=document.getElementById('mdp').value;
-            const cpassword=document.getElementById('cmdp').value;
+            const password=document.getEleById('cmdp').value;
             const error=document.getElementById('error-message');
-            if(cpassword!=password){
+            if(cpassword!=password){mentById('mdp').value;
+            const cpassword=document.getElement
                 event.preventDefault();
-                error.textContent="Password Incorrect";
+                error.textContent="le mot de passe ne correspond pas";
             }else{
                 error.textContent="";
             }

@@ -1,0 +1,12 @@
+:root {
+    --brown-rustic: #855f42;
+    --beige-light: #fff8ec;
+    --olive-green: #6e7e56;
+    --off-white: #f9f9f9;
+    --taupe-grey: #d4c5a0;
+    --dark-brown: #4a3f35;
+    --terracotta-orange: #c97c5d;
+    --smoky-blue: #7296a6;
+    --brick-red: #a5573f;
+    --mustard-yellow: #e1ad01;
+}
