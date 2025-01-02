@@ -16,14 +16,23 @@ def home():
         return redirect(url_for('home.login'))
     user_id = session['user_id']
     user = User.query.filter_by(id_user=user_id).first()
+    categorie_selectionnee = request.args.get('categorie')
 
     if user is None:
         return redirect(url_for('home.login'))
 
-    recette = Recette.query.all()
+    if categorie_selectionnee:
+        categorie_obj = Categorie.query.filter_by(NOM_CATEGORIE=categorie_selectionnee).first()
+        if categorie_obj:
+            recette = Recette.query.filter_by(ID_CATEGORIE=categorie_obj.ID_CATEGORIE).all()
+        else:
+            recette = []
+    else:
+        recette = Recette.query.all()
+    categorie = Categorie.query.all()
     name = user.username
     message = "Page CookHelp"
-    return render_template('home.html', message=message, user_name=name, recette=recette)
+    return render_template('home.html', message=message, user_name=name, recette=recette, categorie=categorie)
 
 
 @home_bp.route('/', methods=['GET','POST'])

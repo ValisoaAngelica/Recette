@@ -206,11 +206,12 @@
     <!-- Sous-navbar pour les catégories -->
     <div class="sub-navbar">
         <div class="container">
-            <a href="#" class="category-link">Entrées</a>
-            <a href="#" class="category-link">Plats principaux</a>
+            {% for categories in categorie %}
+            <a href="home?categorie={{ categories.NOM_CATEGORIE }}" class="category-link">{{categories.NOM_CATEGORIE}}</a>
+            <!-- <a href="#" class="category-link">Plats principaux</a>
             <a href="#" class="category-link">Desserts</a>
-            <a href="#" class="category-link">Goûter</a>
-            
+            <a href="#" class="category-link">Goûter</a> -->
+            {% endfor %}
         </div>
     </div>
 
