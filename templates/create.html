@@ -4,14 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-</head>
+</head>d
+<style>
+.button {
+  line-height: 1;
+  background-color: #e1ad01;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 0.75em 1em;
+  padding-right: 1.25em;
+  color: #fff;
+  border: 1px solid transparent;
+  font-weight: 700;
+  border-radius: 2em;
+  font-size: 1rem;
+  box-shadow: 0 0.7em 1.5em -0.5em hsla(249, 62%, 51%, 0.745);
+  transition: transform 0.3s;
+
+}
+
+.button__icon {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.button:hover {
+  border-color: #f4f5f2;
+}
+
+.button:active {
+  transform: scale(0.98);
+  box-shadow: 0 0.5em 1.5em -0.5em hsla(249, 62%, 51%, 0.745);
+}
+.text-center {
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    margin-top: 20px; 
+}
+</style>
 <body class="bg-light">
     <div class="container">
         <!-- Titre -->
         <div class="row">
             <div class="col-md-6 offset-md-3 text-center" style="margin-top: 50px;">
-                <h1 class="mb-4">CREATE AN ACCOUNT</h1>
+                <h1 class="mb-4">CREER UN COMPTE</h1>
             </div>
         </div>
 
@@ -23,36 +64,36 @@
                         <form action="/" method="post" id="Form">
                             <!-- Champ Nom -->
                             <div class="mb-4">
-                                <label for="username" class="form-label">Name:</label>
-                                <input type="text" id="username" name="username" class="form-control" placeholder="Enter your name" required>
+                                <label for="username" class="form-label">Nom:</label>
+                                <input type="text" id="username" name="username" class="form-control" placeholder="Entrez votre nom" required>
                             </div>
 
                             <!-- Champ Email -->
                             <div class="mb-4">
                                 <label for="email" class="form-label">Email:</label>
-                                <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required>
+                                <input type="email" id="email" name="email" class="form-control" placeholder="Entrez votre email" required>
                             </div>
 
                             <!-- Champ Mot de passe -->
                             <div class="mb-4">
-                                <label for="mdp" class="form-label">Password:</label>
-                                <input type="password" id="mdp" name="mdp" class="form-control" placeholder="Enter your password" required>
+                                <label for="mdp" class="form-label">Mot de passe:</label>
+                                <input type="password" id="mdp" name="mdp" class="form-control" placeholder="Entrez  votre mot de passe" required>
                             </div>
 
                             <!-- Champ Confirmation du mot de passe -->
                             <div class="mb-4">
-                                <label for="cmdp" class="form-label">Confirm Password:</label>
-                                <input type="password" id="cmdp" name="cmdp" class="form-control" placeholder="Confirm your password" required>
+                                <label for="cmdp" class="form-label">Confirmer le mot de passe:</label>
+                                <input type="password" id="cmdp" name="cmdp" class="form-control" placeholder="Confirmez votre mot de passe" required>
                                 <br>
                                 <span id="error-message" class="error" style="color:red"></span>
-                                <br>
                             </div>
-
                             <!-- Bouton Envoyer -->
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary w-100">ENVOYER</button>
+                            <div class="text-center">                                 
+                                    <button type="submit" class="button">
+                                    <span class="button__text">S'inscrire</span>
+                                    </button>
                             </div>
-                            <p style="margin-top:20px">Already have an account <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/login">Login</a></p>
+                            <p style="margin-top:20px">Deja un  compte? <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/login">Se connecter</a></p>
 
                         </form>
                     </div>
@@ -65,12 +106,12 @@
     <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
     <script>
         document.getElementById('Form').addEventListener('submit',function(event){
-            const password=document.getElementById('mdp').value;
-            const cpassword=document.getElementById('cmdp').value;
+            const password=document.getEleById('cmdp').value;
             const error=document.getElementById('error-message');
-            if(cpassword!=password){
+            if(cpassword!=password){mentById('mdp').value;
+            const cpassword=document.getElement
                 event.preventDefault();
-                error.textContent="Password Incorrect";
+                error.textContent="le mot de passe ne correspond pas";
             }else{
                 error.textContent="";
             }
