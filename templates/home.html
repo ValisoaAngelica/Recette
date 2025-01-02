@@ -7,27 +7,52 @@
     <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
     <script src="{{ url_for('static',filename='js/bootstrap.bundle.min.js') }}"></script>
     <style>
-        /* Barre de navigation */
+        :root {
+            --brown-rustic: #855f42;
+            --beige-light: #fff8ec;
+            --olive-green: #6e7e56;
+            --off-white: #f9f9f9;
+            --taupe-grey: #d4c5a0;
+            --dark-brown: #4a3f35;
+            --terracotta-orange: #c97c5d;
+            --smoky-blue: #7296a6;
+            --brick-red: #a5573f;
+            --mustard-yellow: #e1ad01;
+        }
+
+        body {
+        font-family: 'Georgia', serif;
+        background-color: #d4c5a0;
+        color: #4a3f35;
+        }
+
         .navbar {
-            background-color: #ffcaa6;
+            background-color: var(--brown-rustic);
         }
         .navbar a {
-            color: #252525;
+            color: var(--beige-light);
             font-weight: bold;
             margin-right: 15px;
         }
         .navbar a:hover {
             text-decoration: none;
-            color: #ff6f61;
+            color: var(--mustard-yellow);
         }
 
-        /* Grille de cartes */
+        .dropdown-menu {
+            background-color: var(--taupe-grey);
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--olive-green);
+            color: var(--beige-light);
+        }
         .card {
             margin: 20px;
             width: 100%;
             max-width: 250px;
             padding: 1em;
-            background: #f5f5f5;
+            background: var(--off-white);
             border-radius: 10px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -40,7 +65,7 @@
 
         .card-img {
             height: 150px;
-            background-color: #ffcaa6;
+            background-color: var(--taupe-grey);
             border-radius: 10px;
             margin-bottom: 15px;
         }
@@ -52,12 +77,12 @@
         .text-title {
             font-weight: bold;
             font-size: 1.1em;
-            color: #333;
+            color: var(--dark-brown);
         }
 
         .text-body {
             font-size: 0.9em;
-            color: #666;
+            color: var(--olive-green);
         }
 
         .card-footer {
@@ -66,11 +91,11 @@
             align-items: center;
             margin-top: 10px;
             padding-top: 10px;
-            border-top: 1px solid #ddd;
+            border-top: 1px solid var(--taupe-grey);
         }
 
         .card-button {
-            border: 1px solid #252525;
+            border: 1px solid var(--dark-brown);
             display: flex;
             padding: 0.5em;
             border-radius: 50px;
@@ -78,76 +103,124 @@
         }
 
         .card-button:hover {
-            background-color: #ffcaa6;
-            border-color: #ffcaa6;
+            background-color: var(--terracotta-orange);
+            border-color: var(--terracotta-orange);
+            color: var(--beige-light);
         }
-        /* From Uiverse.io by adamgiebl */ 
+
         .cssbuttons-io-button {
-        display: flex;
-        align-items: center;
-        font-family: inherit;
-        cursor: pointer;
-        font-weight: 500;
-        font-size: 16px;
-        padding: 0.7em 1.4em 0.7em 1.1em;
-        color: white;
-        background: #ad5389;
-        background: linear-gradient(
-            0deg,
-            rgba(20, 167, 62, 1) 0%,
-            rgba(102, 247, 113, 1) 100%
-        );
-        border: none;
-        box-shadow: 0 0.7em 1.5em -0.5em #14a73e98;
-        letter-spacing: 0.05em;
-        border-radius: 20em;
+            display: flex;
+            align-items: center;
+            font-family: inherit;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 16px;
+            padding: 0.7em 1.4em 0.7em 1.1em;
+            color: #f9f9f9;
+            background: var(--mustard-yellow);
+            border: none;
+            box-shadow: 0 0.7em 1.5em -0.5em var(--olive-green);
+            letter-spacing: 0.05em;
+            border-radius: 20em;
         }
 
         .cssbuttons-io-button svg {
-        margin-right: 6px;
+            margin-right: 6px;
         }
 
         .cssbuttons-io-button:hover {
-        box-shadow: 0 0.5em 1.5em -0.5em #14a73e98;
+            background-color: var(--terracotta-orange);
+            box-shadow: 0 0.5em 1.5em -0.5em var(--terracotta-orange);
         }
 
         .cssbuttons-io-button:active {
-        box-shadow: 0 0.3em 1em -0.5em #14a73e98;
-}
+            box-shadow: 0 0.3em 1em -0.5em var(--terracotta-orange);
+        }
 
+        .sub-navbar {
+            background-color: #fff8ec;
+            padding: 10px 0;
+            overflow-x: auto;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .sub-navbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .sub-navbar a {
+            display: inline-block;
+            color: var(--dark-brown);
+            padding: 5px 15px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            font-style: italic;
+        }
+
+        .sub-navbar a:hover {
+            background-color: var(--terracotta-orange);
+            color: var(--beige-light);
+            border-radius: 20px;
+        }
     </style>
 </head>
 <body>
-    <!-- Barre de navigation -->
+    <!-- Barre de navigation principale -->
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <a class="navbar-brand" href="/home">CookHelp</a>
-            <div class="navbar-nav">
-                <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Menu
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="/listes">Voir mes recettes</a></li>
-                        <li><a class="dropdown-item" href="/logout">Se déconnecter</a></li>
-                        <li><a class="dropdown-item" href="/add_recette">Ajouter une recette</a></li>
-                    </ul>
-                </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home">Accueil</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Menu
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenu">
+                            <li><a class="dropdown-item" href="/listes">Voir mes recettes</a></li>
+                            <li><a class="dropdown-item" href="/add_recette">Ajouter une recette</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ user_name }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUser">
+                            <li><a class="dropdown-item" href="/profile">Profil</a></li>
+                            <li><a class="dropdown-item" href="/logout">Se déconnecter</a></li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Message de bienvenue -->
-    <div class="container mt-4">
-        <h1 class="text-center">{{ message }}</h1>
-        <h2 class="text-center">Bienvenue, {{ user_name }}</h2>
+    <!-- Sous-navbar pour les catégories -->
+    <div class="sub-navbar">
+        <div class="container">
+            <a href="#" class="category-link">Entrées</a>
+            <a href="#" class="category-link">Plats principaux</a>
+            <a href="#" class="category-link">Desserts</a>
+            <a href="#" class="category-link">Goûter</a>
+            
+        </div>
     </div>
+
+    <!-- Message de bienvenue -->
+    
 
     <!-- Grille de cartes -->
     <div class="container mt-4">
         <div class="row justify-content-center">
-            <!-- Carte 1 -->
-             {% for recettes in recette %}
+            {% for recettes in recette %}
             <div class="col-md-4 col-sm-6 col-12 d-flex justify-content-center">
                 <div class="card">
                     <div class="card-img"
@@ -160,25 +233,17 @@
                         <p class="text-body">{{ recettes.DESCRIPTION }}</p>
                     </div>
                     <div class="card-footer">
-                        <!-- <span class="text-title">10 €</span> -->
-                            <button class="cssbuttons-io-button">
-                            <svg
-                                height="24"
-                                width="24"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
+                        <button class="cssbuttons-io-button">
+                            <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm1 14H9v-2h6v2zm0-4H9v-2h6v2zm-3-5V3.5L18.5 9H12z"></path>
+                                <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm1 14H9v-2h6v2zm0-4H9v-2h6v2zm-3-5V3.5L18.5 9H12z" fill="currentColor"></path>
                             </svg>
                             <span>Détail</span>
-                            </button>
-
+                        </button>
                     </div>
                 </div>
             </div>
             {% endfor %}
-            
         </div>
     </div>
 </body>
