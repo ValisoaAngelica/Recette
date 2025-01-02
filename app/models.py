@@ -8,6 +8,7 @@ class User(db.Model):
     username = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), nullable=True)
     mot_de_passe = db.Column(db.String(255), nullable=False)
+    recettes = db.relationship('Recette', backref='user', lazy=True)
 
     def __repr__(self):
         return f'<User {self.username}>'
@@ -24,13 +25,14 @@ class Categorie(db.Model):
 
     ID_CATEGORIE = db.Column(db.Integer, primary_key=True)
     NOM_CATEGORIE = db.Column(db.Text, nullable=False)
+    recettes = db.relationship('Recette', backref='categorie', lazy=True)
 
 class Recette(db.Model):
     __tablename__ = 'recette'
 
     ID_RECETTE = db.Column(db.Integer, primary_key=True)
-    ID_CATEGORIE = db.Column(db.Integer, nullable=False, index=True)
-    ID_USER = db.Column(db.Integer, nullable=False, index=True)
+    ID_CATEGORIE = db.Column(db.Integer, db.ForeignKey('categorie.ID_CATEGORIE'), nullable=False)
+    ID_USER = db.Column(db.Integer, db.ForeignKey('utilisateur.id_user'), nullable=False)
     TITRE = db.Column(db.Text, nullable=False)
     DESCRIPTION = db.Column(db.Text)
     INGREDIENTS = db.Column(db.Text, nullable=False)

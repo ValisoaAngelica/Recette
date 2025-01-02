@@ -230,7 +230,7 @@
                     </div>
                     <div class="card-info">
                         <p class="text-title">{{ recettes.TITRE }}</p>
-                        <p class="text-body">{{ recettes.DESCRIPTION }}</p>
+                        <p class="text-body">{{ recettes.DESCRIPTION[:50]}}...</p>
                     </div>
                     <div class="card-footer">
                         <button class="cssbuttons-io-button">
@@ -238,7 +238,7 @@
                                 <path d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm1 14H9v-2h6v2zm0-4H9v-2h6v2zm-3-5V3.5L18.5 9H12z" fill="currentColor"></path>
                             </svg>
-                            <span>Détail</span>
+                            <span><a href="/recette/{{ recettes.ID_RECETTE }}">Détail</a></span>
                         </button>
                     </div>
                 </div>

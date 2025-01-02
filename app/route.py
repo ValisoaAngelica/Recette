@@ -5,6 +5,8 @@ from . import db
 import os
 
 
+
+
 home_bp = Blueprint('home', __name__)
 
 
@@ -135,4 +137,16 @@ def liste():
 @home_bp.route('/index')
 def index():
     return render_template("index.html")
+
+@home_bp.route('/recette/<int:id>')
+def recette_detail(id):
+    if 'user_id' not in session:
+        return redirect(url_for('home.login'))
+    user_id = session['user_id']
+    user = User.query.filter_by(id_user=user_id).first()
+    name = user.username
+    
+    recette = Recette.query.filter_by(ID_RECETTE=id).first_or_404()
+    
+    return render_template('recette_detail.html', recette=recette, user_name=name)
 
