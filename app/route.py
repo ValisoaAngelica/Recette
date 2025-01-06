@@ -103,8 +103,14 @@ def add():
 
 @home_bp.route('/listes')
 def liste():
-    
-    return render_template('liste.html')
+    if 'user_id' not in session:
+        return redirect(url_for('home.home'))
+    user_id = session['user_id']
+    user = User.query.filter_by(id_user=user_id).first()
+    if user is None:
+        return redirect(url_for('home.login'))
+    name=user.username
+    return render_template('liste.html',user_name=name)
 # @home_bp.route('/deleteRecette/<int : id_recette>')
 # def deleteRecette(id_recette):
 #     recette = Recette.query.filter_by(id_recette = id_recette).first()
