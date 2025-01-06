@@ -35,8 +35,8 @@ def home():
     return render_template('home.html', message=message, user_name=name, recette=recette, categorie=categorie)
 
 
-@home_bp.route('/', methods=['GET','POST'])
-def login():
+@home_bp.route('/inscription', methods=['GET','POST'])
+def inscription():
     title = "INSCRIPTION"
     if request.method == 'POST':
         username = request.form['username']
@@ -50,8 +50,8 @@ def login():
         return redirect(url_for('home.home'))
     return render_template('create.html',title=title)
 
-@home_bp.route('/login', methods=['GET','POST'])
-def log():
+@home_bp.route('/', methods=['GET','POST'])
+def login():
     if request.method == 'POST':
         email=request.form['email']
         mdp = request.form['mdp']
@@ -150,9 +150,6 @@ def liste():
 #     recette = Recette.query.filter_by(id_recette = id_recette).first()
 #     return render_template('modifierRecette.html', recette = recette)
     
-@home_bp.route('/index')
-def index():
-    return render_template("index.html")
 
 @home_bp.route('/recette/<int:id>')
 def recette_detail(id):

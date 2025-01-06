@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajouter une Recette</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <style>
         /* Barre de navigation */
+        h1{
+            color : #855f42 !important;
+        }
         .navbar {
             background-color: #ffcaa6;
         }
@@ -85,17 +89,6 @@
     </style>
 </head>
 <body>
-    <!-- Barre de navigation -->
-    <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/home">CookHelp</a>
-            <div class="navbar-nav">
-                <a class="nav-link" href="/listes">Voir mes recettes</a>
-                <a class="nav-link" href="/logout">Se déconnecter</a>
-                <a class="nav-link" href="/add_recette">Ajouter une recette</a>
-            </div>
-        </div>
-    </nav>
 
     <!-- Formulaire -->
     <form action="/add_recette" method="POST" enctype="multipart/form-data">
