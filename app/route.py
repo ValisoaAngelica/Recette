@@ -110,7 +110,17 @@ def liste():
     if user is None:
         return redirect(url_for('home.login'))
     name=user.username
-    return render_template('liste.html',user_name=name)
+
+    recettes = Recette.query.filter_by(ID_USER=user_id).all()
+    recettes_categories = [
+        {
+            'recette': recette,
+            'categorie': Categorie.query.filter_by(ID_CATEGORIE=recette.ID_CATEGORIE).first()
+        } 
+        for recette in recettes
+    ]
+
+    return render_template('liste.html', user_name=name, recettes_categories=recettes_categories)
 # @home_bp.route('/deleteRecette/<int : id_recette>')
 # def deleteRecette(id_recette):
 #     recette = Recette.query.filter_by(id_recette = id_recette).first()
