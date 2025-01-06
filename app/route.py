@@ -1,14 +1,39 @@
-from flask import Blueprint, request, redirect, url_for, render_template, current_app, session
+from flask import Blueprint, request, redirect, url_for, render_template, current_app, session,flash
 from werkzeug.utils import secure_filename
 from .models import Recette, Categorie, User
 from . import db
 import os
-
-
+from flask_login import login_required, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 home_bp = Blueprint('home', __name__)
 
+
+@home_bp.route('/profile', methods=['GET', 'POST'])
+def profile():
+    if 'user_id' not in session:
+        return redirect(url_for('home.login'))
+    user_id = session['user_id']
+    user = User.query.filter_by(id_user=user_id).first()
+    if request.method == 'POST':
+        if 'update_info' in request.form:
+            user.username = request.form['username']
+            user.email = request.form['email']
+            db.session.commit()
+            flash('Profil mis à jour avec succès!', 'success')
+        elif 'change_password' in request.form:
+            if (user.mot_de_passe == request.form['current_password']):
+                if request.form['new_password'] == request.form['confirm_password']:
+                    user.mot_de_passe = request.form['new_password']
+                    db.session.commit()
+                    flash('Mot de passe changé avec succès!', 'success')
+                else:
+                    flash('Les nouveaux mots de passe ne correspondent pas.', 'danger')
+            else:
+                flash('Mot de passe actuel incorrect.', 'danger')
+        return redirect(url_for('home.profile'))
+    return render_template('profile.html', user=user)
 
 @home_bp.route('/home')
 def home():
