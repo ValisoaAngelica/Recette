@@ -103,6 +103,7 @@ def add():
 
 @home_bp.route('/listes')
 def liste():
+    
     return render_template('liste.html')
 # @home_bp.route('/deleteRecette/<int : id_recette>')
 # def deleteRecette(id_recette):

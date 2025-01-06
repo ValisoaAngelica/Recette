@@ -3,9 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Mes Recettes</title>
+    <style>
+        :root {
+            --brown-rustic: #855f42;
+            --beige-light: #fff8ec;
+            --olive-green: #6e7e56;
+            --off-white: #f9f9f9;
+            --taupe-grey: #d4c5a0;
+            --dark-brown: #4a3f35;
+            --terracotta-orange: #c97c5d;
+            --smoky-blue: #7296a6;
+            --brick-red: #a5573f;
+            --mustard-yellow: #e1ad01;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: var(--beige-light);
+            color: var(--dark-brown);
+        }
+
+        h1 {
+            color: var(--brown-rustic);
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: var(--off-white);
+        }
+
+        th, td {
+            border: 1px solid var(--taupe-grey);
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--olive-green);
+            color: var(--off-white);
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--beige-light);
+        }
+
+        tr:nth-child(odd) {
+            background-color: var(--off-white);
+        }
+
+        .actions button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .edit {
+            background-color: var(--mustard-yellow);
+            color: var(--off-white);
+        }
+
+        .delete {
+            background-color: var(--brick-red);
+            color: var(--off-white);
+        }
+
+        .edit:hover {
+            background-color: var(--terracotta-orange);
+        }
+
+        .delete:hover {
+            background-color: var(--dark-brown);
+        }
+    </style>
 </head>
 <body>
     <h1>Mes Recettes</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Catégorie</th>
+                <th>Description</th>
+                <th>Ingrédients</th>
+                <th>Instructions</th>
+                <th>Image</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <td class="actions">
+            <button class="edit">Modifier</button>
+            <button class="delete">Supprimer</button>
+        </td>
+    </table>
 </body>
 </html>
