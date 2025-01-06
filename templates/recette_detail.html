@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ recette.titre }} - CookHelp</title>
+    <title>{{ recette.TITRE }} - CookHelp</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
     <script src="{{ url_for('static',filename='js/bootstrap.bundle.min.js') }}"></script>
     <style>
@@ -49,7 +49,8 @@
 
         .recipe-image {
             width: 100%;
-            height: 400px;
+            height: auto;
+            max-height: 500px;
             object-fit: cover;
             border-radius: 10px;
         }
@@ -58,7 +59,7 @@
             background-color: var(--off-white);
             border-radius: 10px;
             padding: 20px;
-            margin-top: 20px;
+            margin-bottom: 20px;
         }
 
         .recipe-title {
@@ -88,7 +89,7 @@
             color: var(--dark-brown);
         }
 
-        .recipe-instructions ol {
+        .recipe-instructions ul, .recipe-instructions ol {
             padding-left: 20px;
         }
 
@@ -137,35 +138,37 @@
 
     <!-- Contenu de la recette -->
     <div class="container mt-4">
+        <h1 class="recipe-title text-center mb-4">{{ recette.TITRE }}</h1>
         <div class="row">
-            <div class="col-md-8 offset-md-2">
-                <img src="{{ url_for('static', filename='image/' + recette.IMAGE) }}" alt="{{ recette.TITRE }}" class="recipe-image">
+            <div class="col-md-6">
                 <div class="recipe-info">
-                    <h1 class="recipe-title">{{ recette.TITRE }}</h1>
                     <p class="recipe-meta">
                         Publié par {{ recette.user.username }} le {{ recette.DATE_CREATION.strftime('%d/%m/%Y') }}
                         <br>
-                        Catégorie: {{ recette.categorie.NOM_CATEGORIE}}
+                        Catégorie: {{ recette.categorie.NOM_CATEGORIE }}
                     </p>
                     <div class="recipe-description">
                         {{ recette.DESCRIPTION }}
                     </div>
                 </div>
+                <img src="{{ url_for('static', filename='image/' + recette.IMAGE) }}" alt="{{ recette.TITRE }}" class="recipe-image">
+            </div>
+            <div class="col-md-6">
                 <div class="recipe-instructions">
-                    <h3>Ingredients</h3>
-                    <ol>
+                    <h3>Ingrédients</h3>
+                    <ul>
                         {% for ing in recette.INGREDIENTS.split('\n') %}
                             <li>{{ ing }}</li>
                         {% endfor %}
-                    </ol>
+                    </ul>
                 </div>
                 <div class="recipe-instructions">
                     <h3>Instructions</h3>
-                    <ul>
+                    <ol>
                         {% for instruction in recette.INSTRUCTIONS.split('\n') %}
                             <li>{{ instruction }}</li>
                         {% endfor %}
-                    </ul>
+                    </ol>
                 </div>
             </div>
         </div>

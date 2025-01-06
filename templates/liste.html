@@ -185,9 +185,9 @@
             <tr>
                 <td>{{ item.recette.TITRE }}</td>
                 <td>{{ item.categorie.NOM_CATEGORIE }}</td>
-                <td>{{ item.recette.DESCRIPTION }}</td>
-                <td>{{ item.recette.INGREDIENTS }}</td>
-                <td>{{ item.recette.INSTRUCTIONS }}</td>
+                <td>{{ item.recette.DESCRIPTION[:50] }}...</td>
+                <td>{{ item.recette.INGREDIENTS[:50] }}...</td>
+                <td>{{ item.recette.INSTRUCTIONS[:50] }}...</td>
                 <td>
                     {% if item.recette.IMAGE %}
                     <img src="{{ url_for('static', filename='image/' ~ item.recette.IMAGE) }}" alt="Image de {{ item.recette.TITRE }}">
