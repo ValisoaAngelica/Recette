@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier une Recette</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <style>
+        /* Incluez ici le même style que dans form.html pour garder la cohérence */
+        h1 {
+            color : #855f42 !important;
+        }
+        .navbar {
+            background-color: #ffcaa6;
+        }
+        .navbar a {
+            color: #252525;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        .navbar a:hover {
+            text-decoration: none;
+            color: #ff6f61;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #f5f5f5;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        }
+
+        form h1 {
+            text-align: center;
+            color: #252525;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"], textarea, select, input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f8f9fa;
+            margin-bottom: 20px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(0deg, rgba(20, 167, 62, 1) 0%, rgba(102, 247, 113, 1) 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0.7em 1.5em -0.5em #14a73e98;
+            transition: all 0.3s ease-in-out;
+        }
+
+        button:hover {
+            box-shadow: 0 0.5em 1.5em -0.5em #14a73e98;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Formulaire de modification -->
+    <form action="{{ url_for('home.modifier_recette', id_recette=recette.ID_RECETTE) }}" method="POST" enctype="multipart/form-data">
+        <h1>Modifier une Recette</h1>
+        <div>
+            <label for="titre">Titre de la recette</label>
+            <input type="text" id="titre" name="titre" placeholder="Entrez le titre" value="{{ recette.TITRE }}" required>
+        </div>
+        <div>
+            <label for="description">Description</label>
+            <textarea id="description" name="description" placeholder="Décrivez brièvement la recette">{{ recette.DESCRIPTION }}</textarea>
+        </div>
+        <div>
+            <label for="ingredients">Ingrédients</label>
+            <textarea id="ingredients" name="ingredients" placeholder="Listez les ingrédients requis" required>{{ recette.INGREDIENTS }}</textarea>
+        </div>
+        <div>
+            <label for="instructions">Instructions</label>
+            <textarea id="instructions" name="instructions" placeholder="Décrivez les étapes à suivre" required>{{ recette.INSTRUCTIONS }}</textarea>
+        </div>
+        <div>
+            <label for="categorie">Catégorie</label>
+            <select id="categorie_id" name="categorie" required>
+                <option value="" disabled>Sélectionner une catégorie</option>
+                {% for categorie in categories %}
+                <option value="{{ categorie.ID_CATEGORIE }}" {% if recette.ID_CATEGORIE == categorie.ID_CATEGORIE %}selected{% endif %}>{{ categorie.NOM_CATEGORIE }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="image">Ajouter une image</label>
+            <input type="file" id="image" name="image" accept="image/*">
+        </div>
+        <button type="submit">Modifier la Recette</button>
+    </form>
+</body>
+</html>
