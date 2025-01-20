@@ -146,14 +146,49 @@ def liste():
     ]
 
     return render_template('liste.html', user_name=name, recettes_categories=recettes_categories)
-# @home_bp.route('/deleteRecette/<int : id_recette>')
-# def deleteRecette(id_recette):
-#     recette = Recette.query.filter_by(id_recette = id_recette).first()
-#     db.session.delete(recette)
-#     db.session.commit()
-#     return redirect('/')
+@home_bp.route('/deleteRecette/<int:id_recette>', methods=['POST'])
+def deleteRecette(id_recette):
+    recette = Recette.query.filter_by(ID_RECETTE=id_recette).first()
+    if recette:
+        db.session.delete(recette)
+        db.session.commit()
+    else:
+        flash("Recette non trouvée.", "danger")
+    
+    return redirect(url_for('home.home'))
+@home_bp.route('/modifier_recette/<int:id_recette>', methods=['GET', 'POST'])
+def modifier_recette(id_recette):
+    if 'user_id' not in session:
+        return redirect(url_for('home.home'))
+    
+    user_id = session['user_id']
+    user = User.query.filter_by(id_user=user_id).first()
+    if user is None:
+        return redirect(url_for('home.login'))
 
+    name = user.email
+    categories = Categorie.query.all()
+    recette = Recette.query.get_or_404(id_recette)
 
+    if request.method == 'POST':
+        recette.TITRE = request.form['titre']
+        recette.DESCRIPTION = request.form['description']
+        recette.INGREDIENTS = request.form['ingredients']
+        recette.INSTRUCTIONS = request.form['instructions']
+        recette.ID_CATEGORIE = request.form['categorie']
+        
+        image = request.files['image']
+        if image and image.filename != '':
+            filename = secure_filename(image.filename)
+            file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+            image.save(file_path)
+            recette.IMAGE = filename  # Mettre à jour l'image si fournie
+
+        db.session.commit()
+        flash("Recette mise à jour avec succès.", "success")
+        return redirect(url_for('home.home'))
+
+    return render_template('modifier.html', categories=categories, email=name, recette=recette)
 # @home_bp.route('/updateRecette/<int : id_recette>', methods=["POST","GET"])
 # def updateRecette(id_recette):
 #     if 'user_id' not in session:
