@@ -27,6 +27,7 @@
             font-family: Arial, sans-serif;
             background-color: var(--beige-light);
             color: var(--dark-brown);
+            
         }
     
         /* Titre principal */
@@ -100,7 +101,9 @@
             max-width: 100px;
             border-radius: 5px;
         }
-    
+        td{
+            font-size : 14px;
+        }
         /* Boutons d'action */
         .actions button {
             margin: 5px;
@@ -169,6 +172,7 @@
         </div>
     </nav>
     <h1>Mes Recettes</h1>
+    <div class="container">
     <table>
         <thead>
             <tr>
@@ -208,6 +212,7 @@
             {% endfor %}
         </tbody>
     </table>
+</div>
     <script>
         function confirmDelete(id) {
             Swal.fire({
