@@ -25,9 +25,9 @@ def profile():
             db.session.commit()
             flash('Profil mis à jour avec succès!', 'success')
         elif 'change_password' in request.form:
-            if (user.mot_de_passe == request.form['current_password']):
+            if check_password_hash(user.mot_de_passe, request.form['current_password']):
                 if request.form['new_password'] == request.form['confirm_password']:
-                    user.mot_de_passe = request.form['new_password']
+                    user.mot_de_passe = generate_password_hash(request.form['new_password'], method='pbkdf2:sha256', salt_length=16)
                     db.session.commit()
                     flash('Mot de passe changé avec succès!', 'success')
                 else:
@@ -51,25 +51,25 @@ def home():
     categorie_selectionnee = request.args.get('categorie')
     search_query = request.args.get('search', '')
     page = request.args.get('page', 1, type=int)
-    per_page = 4  # Number of recipes per page
+    per_page = 4  
 
-    # Base query
+    
     query = Recette.query
 
-    # Apply category filter if selected
+    
     if categorie_selectionnee:
         categorie_obj = Categorie.query.filter_by(NOM_CATEGORIE=categorie_selectionnee).first()
         if categorie_obj:
             query = query.filter_by(ID_CATEGORIE=categorie_obj.ID_CATEGORIE)
 
-    # Apply search filter if search query is provided
+    
     if search_query:
         query = query.filter(or_(
             Recette.TITRE.ilike(f'%{search_query}%'),
             Recette.DESCRIPTION.ilike(f'%{search_query}%')
         ))
 
-    # Paginate the results
+    
     recettes_paginated = query.paginate(page=page, per_page=per_page, error_out=False)
     recettes = recettes_paginated.items
 
@@ -77,7 +77,7 @@ def home():
     name = user.username
     message = "Page CookHelp"
 
-    # Check if it's an API request
+    
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         return jsonify({
             'recettes': [{
@@ -143,7 +143,8 @@ def inscription():
         username = request.form['username']
         email = request.form['email']
         mdp = request.form['cmdp']
-        new_user = User(username=username,email=email,mot_de_passe=mdp)
+        hashed_password = generate_password_hash(mdp, method='pbkdf2:sha256', salt_length=16)
+        new_user = User(username=username,email=email,mot_de_passe=hashed_password)
         db.session.add(new_user)
         db.session.commit()
 
@@ -158,7 +159,7 @@ def login():
         mdp = request.form['mdp']
 
         user = User.query.filter_by(email=email).first()
-        if user and user.mot_de_passe == mdp :
+        if user and check_password_hash(user.mot_de_passe, mdp):
             session['user_id'] = user.id_user
             return redirect(url_for('home.home'))
     return render_template('login.html')

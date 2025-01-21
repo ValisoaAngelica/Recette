@@ -250,14 +250,14 @@
             const categoryLinks = document.querySelectorAll('.category-link');
             let currentPage = 1;
         
-            // Function to fetch recipes from the server
+            // Function rcuperer recette
             async function fetchRecipes(searchTerm = '', category = '', page = 1) {
                 const response = await fetch(`/api/recipes?search=${searchTerm}&categorie=${category}&page=${page}`);
                 const data = await response.json();
                 return data;
             }
         
-            // Function to render recipes
+            // Function afficher recette
             function renderRecipes(recipes) {
                 recipeContainer.innerHTML = '';
         
@@ -286,7 +286,7 @@
                 });
             }
         
-            // Function to render pagination
+            //pagination
             function renderPagination(totalPages, currentPage) {
                 let paginationHTML = '';
         
@@ -328,7 +328,8 @@
                     renderPagination(data.total_pages, data.current_page);
                 });
             });
-            // Event listener for search form submission
+
+            // Event recherche
             searchForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const searchTerm = searchInput.value.trim();
@@ -339,7 +340,8 @@
                 renderPagination(data.total_pages, data.current_page);
             });
         
-            // Initial load
+            
+        
             (async () => {
                 const data = await fetchRecipes();
                 renderRecipes(data.recettes);
