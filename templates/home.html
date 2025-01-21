@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CookHelp</title>
+    <title>Ô'Marmit</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
     <script src="{{ url_for('static',filename='js/bootstrap.bundle.min.js') }}"></script>
     <style>
@@ -174,7 +174,7 @@
     <!-- Barre de navigation principale -->
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/home">CookHelp</a>
+            <a class="navbar-brand" href="/home">Ô'Marmit</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -213,44 +213,140 @@
         <div class="container">
             {% for categories in categorie %}
             <a href="home?categorie={{ categories.NOM_CATEGORIE }}" class="category-link">{{categories.NOM_CATEGORIE}}</a>
-            <!-- <a href="#" class="category-link">Plats principaux</a>
-            <a href="#" class="category-link">Desserts</a>
-            <a href="#" class="category-link">Goûter</a> -->
             {% endfor %}
         </div>
     </div>
 
-    <!-- Message de bienvenue -->
-    
-
-    <!-- Grille de cartes -->
-    <div class="container mt-4">
+    <div class="container mt-3">
         <div class="row justify-content-center">
-            {% for recettes in recette %}
-            <div class="col-md-3 col-sm-6 col-12 d-flex justify-content-center">
-                <div class="card">
-                    <div class="card-img"
-                        style="background-image: url('/static/image/{{ recettes.IMAGE }}');
-                                background-size: cover;
-                                background-position: center;">
-                    </div>
-                    <div class="card-info">
-                        <p class="text-title">{{ recettes.TITRE }}</p>
-                        <p class="text-body">{{ recettes.DESCRIPTION[:50]}}...</p>
-                    </div>
-                    <div class="card-footer">
-                        <button class="cssbuttons-io-button">
-                            <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm1 14H9v-2h6v2zm0-4H9v-2h6v2zm-3-5V3.5L18.5 9H12z" fill="currentColor"></path>
-                            </svg>
-                            <span><a href="/recette/{{ recettes.ID_RECETTE }}">Détail</a></span>
-                        </button>
-                    </div>
-                </div>
+            <div class="col-md-6">
+                <form id="search-form" class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Rechercher une recette" aria-label="Search" id="search-input">
+                    <button class="btn btn-outline-success" type="submit">Rechercher</button>
+                </form>
             </div>
-            {% endfor %}
         </div>
     </div>
+
+    <div class="container mt-4">
+        <div class="row justify-content-center recipeContainer">
+           
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center" id="pagination">
+            
+        </ul>
+    </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchForm = document.getElementById('search-form');
+            const searchInput = document.getElementById('search-input');
+            const recipeContainer = document.querySelector('.recipeContainer');
+            const paginationContainer = document.getElementById('pagination');
+            const categoryLinks = document.querySelectorAll('.category-link');
+            let currentPage = 1;
+        
+            // Function to fetch recipes from the server
+            async function fetchRecipes(searchTerm = '', category = '', page = 1) {
+                const response = await fetch(`/api/recipes?search=${searchTerm}&categorie=${category}&page=${page}`);
+                const data = await response.json();
+                return data;
+            }
+        
+            // Function to render recipes
+            function renderRecipes(recipes) {
+                recipeContainer.innerHTML = '';
+        
+                recipes.forEach(recipe => {
+                    const recipeCard = `
+                        <div class="col-md-3 col-sm-6 col-12 d-flex justify-content-center">
+                            <div class="card">
+                                <div class="card-img" style="background-image: url('/static/image/${recipe.IMAGE}'); background-size: cover; background-position: center;"></div>
+                                <div class="card-info">
+                                    <p class="text-title">${recipe.TITRE}</p>
+                                    <p class="text-body">${recipe.DESCRIPTION.slice(0, 50)}...</p>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="cssbuttons-io-button">
+                                        <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm1 14H9v-2h6v2zm0-4H9v-2h6v2zm-3-5V3.5L18.5 9H12z" fill="currentColor"></path>
+                                        </svg>
+                                        <span><a href="/recette/${recipe.ID_RECETTE}">Détail</a></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    recipeContainer.innerHTML += recipeCard;
+                });
+            }
+        
+            // Function to render pagination
+            function renderPagination(totalPages, currentPage) {
+                let paginationHTML = '';
+        
+                for (let i = 1; i <= totalPages; i++) {
+                    paginationHTML += `
+                        <li class="page-item ${i === currentPage ? 'active' : ''}">
+                            <a class="page-link" href="#" data-page="${i}">${i}</a>
+                        </li>
+                    `;
+                }
+        
+                paginationContainer.innerHTML = paginationHTML;
+        
+                // Add event listeners to pagination links
+                const pageLinks = paginationContainer.querySelectorAll('.page-link');
+                pageLinks.forEach(link => {
+                    link.addEventListener('click', async (e) => {
+                        e.preventDefault();
+                        currentPage = parseInt(e.target.dataset.page);
+                        const searchTerm = searchInput.value.trim();
+                        const category = document.querySelector('.category-link.active')?.textContent || '';
+                        const data = await fetchRecipes(searchTerm, category, currentPage);
+                        renderRecipes(data.recettes);
+                        renderPagination(data.total_pages, data.current_page);
+                    });
+                });
+            }
+        
+            //categorie
+            categoryLinks.forEach(link => {
+                link.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    categoryLinks.forEach(link => link.classList.remove('active')); // Réinitialiser les classes actives
+                    e.target.classList.add('active'); // Ajouter une classe active à la catégorie cliquée
+                    const category = e.target.textContent.trim();
+                    currentPage = 1;
+                    const data = await fetchRecipes('', category, currentPage);
+                    renderRecipes(data.recettes);
+                    renderPagination(data.total_pages, data.current_page);
+                });
+            });
+            // Event listener for search form submission
+            searchForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const searchTerm = searchInput.value.trim();
+                const category = document.querySelector('.category-link.active')?.textContent || '';
+                currentPage = 1;
+                const data = await fetchRecipes(searchTerm, category, currentPage);
+                renderRecipes(data.recettes);
+                renderPagination(data.total_pages, data.current_page);
+            });
+        
+            // Initial load
+            (async () => {
+                const data = await fetchRecipes();
+                renderRecipes(data.recettes);
+                renderPagination(data.total_pages, data.current_page);
+            })();
+        });
+
+    </script>
 </body>
 </html>

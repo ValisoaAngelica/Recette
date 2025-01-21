@@ -2,3 +2,5 @@ flask
 flask_sqlalchemy
 pymysql
 sqlalchemy
+flask-login
+flask-migrate

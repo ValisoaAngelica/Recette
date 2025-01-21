@@ -5,6 +5,8 @@ from . import db
 import os
 from flask_login import login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask import jsonify, request, render_template, redirect, url_for, session
+from sqlalchemy import or_
 
 
 home_bp = Blueprint('home', __name__)
@@ -39,25 +41,99 @@ def profile():
 def home():
     if 'user_id' not in session:
         return redirect(url_for('home.login'))
+    
     user_id = session['user_id']
     user = User.query.filter_by(id_user=user_id).first()
-    categorie_selectionnee = request.args.get('categorie')
-
+    
     if user is None:
         return redirect(url_for('home.login'))
+    
+    categorie_selectionnee = request.args.get('categorie')
+    search_query = request.args.get('search', '')
+    page = request.args.get('page', 1, type=int)
+    per_page = 4  # Number of recipes per page
 
+    # Base query
+    query = Recette.query
+
+    # Apply category filter if selected
     if categorie_selectionnee:
         categorie_obj = Categorie.query.filter_by(NOM_CATEGORIE=categorie_selectionnee).first()
         if categorie_obj:
-            recette = Recette.query.filter_by(ID_CATEGORIE=categorie_obj.ID_CATEGORIE).all()
-        else:
-            recette = []
-    else:
-        recette = Recette.query.all()
-    categorie = Categorie.query.all()
+            query = query.filter_by(ID_CATEGORIE=categorie_obj.ID_CATEGORIE)
+
+    # Apply search filter if search query is provided
+    if search_query:
+        query = query.filter(or_(
+            Recette.TITRE.ilike(f'%{search_query}%'),
+            Recette.DESCRIPTION.ilike(f'%{search_query}%')
+        ))
+
+    # Paginate the results
+    recettes_paginated = query.paginate(page=page, per_page=per_page, error_out=False)
+    recettes = recettes_paginated.items
+
+    categories = Categorie.query.all()
     name = user.username
     message = "Page CookHelp"
-    return render_template('home.html', message=message, user_name=name, recette=recette, categorie=categorie)
+
+    # Check if it's an API request
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return jsonify({
+            'recettes': [{
+                'ID_RECETTE': r.ID_RECETTE,
+                'TITRE': r.TITRE,
+                'DESCRIPTION': r.DESCRIPTION,
+                'IMAGE': r.IMAGE
+            } for r in recettes],
+            'total_pages': recettes_paginated.pages,
+            'current_page': page
+        })
+
+    return render_template('home.html', 
+                           message=message, 
+                           user_name=name, 
+                           recette=recettes, 
+                           categorie=categories,
+                           pagination=recettes_paginated,
+                           categorie_selectionnee=categorie_selectionnee)
+
+@home_bp.route('/api/recipes')
+def api_recipes():
+    search = request.args.get('search', '')
+    categorie_selectionnee = request.args.get('categorie', '')
+    page = request.args.get('page', 1, type=int)
+    per_page = 8
+
+    query = Recette.query
+
+    # Filtrer par catégorie
+    if categorie_selectionnee:
+        categorie_obj = Categorie.query.filter_by(NOM_CATEGORIE=categorie_selectionnee).first()
+        if categorie_obj:
+            query = query.filter_by(ID_CATEGORIE=categorie_obj.ID_CATEGORIE)
+
+    # Filtrer par recherche
+    if search:
+        query = query.filter(or_(
+            Recette.TITRE.ilike(f'%{search}%'),
+            Recette.DESCRIPTION.ilike(f'%{search}%')
+        ))
+
+    recettes_paginated = query.paginate(page=page, per_page=per_page, error_out=False)
+    recettes = recettes_paginated.items
+
+    return jsonify({
+        'recettes': [{
+            'ID_RECETTE': r.ID_RECETTE,
+            'TITRE': r.TITRE,
+            'DESCRIPTION': r.DESCRIPTION,
+            'IMAGE': r.IMAGE
+        } for r in recettes],
+        'total_pages': recettes_paginated.pages,
+        'current_page': page
+    })
+
 
 
 @home_bp.route('/inscription', methods=['GET','POST'])
@@ -189,36 +265,6 @@ def modifier_recette(id_recette):
         return redirect(url_for('home.home'))
 
     return render_template('modifier.html', categories=categories, email=name, recette=recette)
-# @home_bp.route('/updateRecette/<int : id_recette>', methods=["POST","GET"])
-# def updateRecette(id_recette):
-#     if 'user_id' not in session:
-#         return redirect(url_for('home.home'))
-#     user_id = session['user_id']
-#     user = User.query.filter_by(id_user=user_id).first()
-#     if user is None:
-#         return redirect(url_for('home.login'))
-#     if request.method == 'POST':
-#         titre = request.form['titre']
-#         description = request.form['description']
-#         ingredients = request.form['ingredients']
-#         instructions = request.form['instructions']
-#         categorie = request.form['categorie']
-#         image = request.form['image']
-        
-#         recette = Recette.query.filter_by(id_recette = id_recette).first()
-#         recette.titre = titre
-#         recette.description = description
-#         recette.ingredients = ingredients
-#         recette.instructions = instructions
-#         recette.categorie = categorie
-#         recette.image = image
-#         recette.id_user = user_id
-
-#         db.session.add(recette)
-#         db.session.commit()
-#         return redirect('/')
-#     recette = Recette.query.filter_by(id_recette = id_recette).first()
-#     return render_template('modifierRecette.html', recette = recette)
     
 
 @home_bp.route('/recette/<int:id>')
