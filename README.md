@@ -1,10 +1,16 @@
-# Recette
+    Site de Recette : Ô'Marmit
 -------------------------------
-Authentification d'un utilisateur
+Guide :
+    -Télecharger les bibliothèques nécessaires dans requirements.txt
+    -Créer une base de donnée nommée "recette" et importer le fichier RECETTE.sql dedans
+-------------------------------
+Authentification d'un utilisateur si vous voulez tous de suite tester:
 email: valisoa@gmail.com
 mdp: valisoa1234
--------------------------------
-    Site de Recette : Ô'Marmit
+
+
+
+
 Description :
 Ce site permet aux utilisateurs de :
     -Rechercher des recettes par catégories ou ingrédients.

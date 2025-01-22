@@ -7,6 +7,7 @@ from flask_login import login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import jsonify, request, render_template, redirect, url_for, session
 from sqlalchemy import or_
+from flask import flash
 
 
 home_bp = Blueprint('home', __name__)
@@ -162,6 +163,11 @@ def login():
         if user and check_password_hash(user.mot_de_passe, mdp):
             session['user_id'] = user.id_user
             return redirect(url_for('home.home'))
+        else:
+            if not user:
+                flash("L'email n'existe pas.", "warning")
+            else:
+                flash("Mot de passe incorrect.", "warning")
     return render_template('login.html')
 @home_bp.route('/logout')
 def logout():
