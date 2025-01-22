@@ -4,6 +4,8 @@ Authentification d'un utilisateur
 email: valisoa@gmail.com
 mdp: valisoa1234
 -------------------------------
+*Créer une base de données nommée "recette" et importer RECETTE.sql dedans
+
     Site de Recette : Ô'Marmit
 Description :
 Ce site permet aux utilisateurs de :
