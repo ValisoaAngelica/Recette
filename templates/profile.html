@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil - CookHelp</title>
+    <title>Profil - Ô'Marmit</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
     <script src="{{ url_for('static',filename='js/bootstrap.bundle.min.js') }}"></script>
     <style>
@@ -106,6 +106,17 @@
 
     <div class="container mt-4">
         <h1 class="text-center mb-4">Profil de {{ user.username }}</h1>
+        {% with messages = get_flashed_messages(category_filter=["success"]) %}
+            {% if messages %}
+                <div class="text-success" style="font-size: 1em;text-align: center;font-weight: bold;">
+                    {% for message in messages %}
+                        {% if message == "Mot de passe changé avec succès!" %}
+                            {{ message }}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% endwith %}
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <div class="card">
@@ -132,6 +143,17 @@
                             <div class="mb-3">
                                 <label for="current_password" class="form-label">Mot de passe actuel</label>
                                 <input type="password" class="form-control" id="current_password" name="current_password" required>
+                                {% with messages = get_flashed_messages(category_filter=["danger"]) %}
+                                {% if messages %}
+                                    <div class="text-danger" style="font-size: 1em;text-align: center;font-weight: bold;">
+                                        {% for message in messages %}
+                                            {% if message == "Mot de passe actuel incorrect." %}
+                                                {{ message }}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                {% endwith %}
                             </div>
                             <div class="mb-3">
                                 <label for="new_password" class="form-label">Nouveau mot de passe</label>
@@ -141,6 +163,17 @@
                                 <label for="confirm_password" class="form-label">Confirmer le nouveau mot de passe</label>
                                 <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
                             </div>
+                            {% with messages = get_flashed_messages(category_filter=["danger"]) %}
+                                {% if messages %}
+                                    <div class="text-danger" style="font-size: 1em;text-align: center;font-weight: bold;">
+                                        {% for message in messages %}
+                                            {% if message == "Les nouveaux mots de passe ne correspondent pas." %}
+                                                {{ message }}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                {% endwith %}
                             <button type="submit" name="change_password" class="btn btn-primary">Changer le mot de passe</button>
                         </form>
                     </div>

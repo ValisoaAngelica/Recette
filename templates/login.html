@@ -22,10 +22,32 @@
                             <div class="mb-4">
                                 <label for="email" class="form-label">Email:</label>
                                 <input type="email" id="email" name="email" class="form-control" placeholder="Entrer votre email" required>
+                                {% with messages = get_flashed_messages(category_filter=["danger"]) %}
+                        {% if messages %}
+                            <div class="text-danger" style="font-size: 0.9em;">
+                                {% for message in messages %}
+                                    {% if message == "L'email n'existe pas." %}
+                                        {{ message }}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        {% endwith %}
                             </div>
                             <div class="mb-4">
                                 <label for="mdp" class="form-label">Mot de passe :</label>
                                 <input type="password" id="mdp" name="mdp" class="form-control" placeholder="Entrer votre mot de passe" required>
+                                {% with messages = get_flashed_messages(category_filter=["warning"]) %}
+                                {% if messages %}
+                                    <div class="text-danger" style="font-size: 1em;text-align: center;font-weight: bold;">
+                                        {% for message in messages %}
+                                            {% if message == "Mot de passe incorrect." %}
+                                                {{ message }}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                {% endwith %}
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary w-100">Se connecter</button>
